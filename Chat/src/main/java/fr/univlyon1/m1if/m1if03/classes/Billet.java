@@ -1,12 +1,18 @@
 package fr.univlyon1.m1if.m1if03.classes;
 
+import java.util.ArrayList;
+
 public class Billet {
     private String titre, contenu, auteur;
+    private static int ID = -1;
+    private ArrayList<String> listeCommentaire;
 
     public Billet() {
+        ID++;
         this.titre = "Rien";
         this.contenu = "Vide";
         this.auteur = "Personne";
+        this.listeCommentaire = new ArrayList<>();
     }
 
     public Billet(String titre, String contenu, String auteur) {
@@ -37,5 +43,17 @@ public class Billet {
 
     public void setAuteur(String auteur) {
         this.auteur = auteur;
+    }
+
+    public ArrayList<String> getListeCommentaire() {
+        return listeCommentaire;
+    }
+
+    public void setListeCommentaire(ArrayList<String> listeCommentaire) {
+        this.listeCommentaire = listeCommentaire;
+    }
+    
+    public static int getID() {
+        return ID;
     }
 }
