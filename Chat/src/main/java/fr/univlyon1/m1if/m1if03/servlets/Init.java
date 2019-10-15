@@ -28,6 +28,7 @@ public class Init extends HttpServlet {
         HttpSession session = request.getSession(true);
         String pseudo =(String)session.getAttribute("pseudo");
         String groupe =(String)session.getAttribute("groupe");
+        
         if((pseudo != null && !pseudo.equals("")) && (groupe != null && !groupe.equals(""))) {
             request.getRequestDispatcher("billet.jsp").forward(request, response);
         } else {

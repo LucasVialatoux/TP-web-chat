@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 public class Billet {
     private String titre, contenu, auteur, groupe;
-    private static int ID = -1;
+    private static int compteur = 0;
+    private int id;
     private ArrayList<String> listeCommentaire;
 
     public Billet() {
-        ID++;
+        this.id=compteur;
+        compteur++;
         this.titre = "Rien";
         this.contenu = "Vide";
         this.auteur = "Personne";
@@ -63,7 +65,7 @@ public class Billet {
         this.listeCommentaire = listeCommentaire;
     }
     
-    public static int getID() {
-        return ID;
+    public int getID() {
+        return this.id;
     }
 }
