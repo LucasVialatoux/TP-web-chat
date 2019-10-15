@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="fr.univlyon1.m1if.m1if03.classes.Global"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -13,22 +14,26 @@
         billet.setContenu(request.getParameter("contenu"));
         billet.setTitre(request.getParameter("titre"));
         billet.setAuteur((String) session.getAttribute("pseudo"));
+        billet.setGroupe((String) session.getAttribute("groupe"));
         Global.gb.add(billet);
     }
 } %>
 <!doctype html>
 <html>
 <head>
+    <!--<meta http-equiv="refresh" content="5;url=/Init" /> --> 
     <title>Billet</title>
 </head>
 <body>
-<h2>Hello <%= session.getAttribute("pseudo")%> !</h2>
-<% 
-if (!Global.gb.getBillets().isEmpty()){
-    for (Billet b : Global.gb.getBillets()){ 
+<h1>Hello <%= session.getAttribute("pseudo")%> !</h1>
+<h2>Groupe : <%= session.getAttribute("groupe")%> !</h2>
+<%
+    String groupe = (String)session.getAttribute("groupe");
+if (!Global.gb.getBilletsByGrp(groupe).isEmpty()){
+    for (Billet b : Global.gb.getBilletsByGrp(groupe)){ 
     %>
     <p>Ceci est un billet de <%= b.getAuteur() %></p>
-    <h1><c:out value="<%= b.getTitre()%>"/></h1>
+    <h3><c:out value="<%= b.getTitre()%>"/></h3>
     <div class="contenu"><%= b.getContenu()%></div>
     <hr>
 <% for (String s : b.getListeCommentaire()){ %>
