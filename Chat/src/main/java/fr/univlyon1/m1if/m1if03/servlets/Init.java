@@ -12,9 +12,12 @@ import java.io.IOException;
 public class Init extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pseudo = request.getParameter("pseudo");
-        if(pseudo != null && !pseudo.equals("")) {
+        String groupe = request.getParameter("groupe");
+        
+        if((pseudo != null && !pseudo.equals("")) && (groupe != null && !groupe.equals(""))) {
             HttpSession session = request.getSession(true);
             session.setAttribute("pseudo", pseudo);
+            session.setAttribute("groupe", groupe); 
             request.getRequestDispatcher("billet.jsp").forward(request, response);
         } else {
             response.sendRedirect("index.html");
@@ -22,6 +25,14 @@ public class Init extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("index.html");
+        HttpSession session = request.getSession(true);
+        String pseudo =(String)session.getAttribute("pseudo");
+        String groupe =(String)session.getAttribute("groupe");
+        
+        if((pseudo != null && !pseudo.equals("")) && (groupe != null && !groupe.equals(""))) {
+            request.getRequestDispatcher("billet.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("index.html");
+        }
     }
 }
