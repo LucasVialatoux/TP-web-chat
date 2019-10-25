@@ -19,6 +19,20 @@ public class Groupe implements Serializable{
         this.listeParticipants = listeParticipants;
         this.gest = gest;
     }
+    
+    public boolean getCreator(String proprio) {
+        if (this.proprio == proprio) {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean isParticipant(String username) {
+        if (this.listeParticipants.contains(username)){
+            return true;
+        }
+        return false;
+    }
 
     /**
      * @return the nom
@@ -74,6 +88,10 @@ public class Groupe implements Serializable{
      */
     public void setListeParticipants(ArrayList listeParticipants) {
         this.listeParticipants = listeParticipants;
+    }
+    
+    public void addParticipants(String username){
+        this.listeParticipants.add(username);
     }
 
     /**

@@ -18,15 +18,12 @@ public class GestionGroupe extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Groupe grp = new Groupe();
-        grp.setNom("test");
-        request.setAttribute("myBean", grp);
         request.getRequestDispatcher("groupe.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        request.getRequestDispatcher("groupe.jsp").forward(request, response);
     }
 
 }

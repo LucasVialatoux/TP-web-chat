@@ -65,6 +65,7 @@ if (!Global.gb.getBilletsByGrp(groupe).isEmpty()){
 <% } %>
 
 <p><a href="saisie.html">Saisir un nouveau billet</a></p>
+<p><a href="groupe.html">Choisir un groupe</a></p>
 <p><a href="Deco">Se déconnecter</a></p>
 
 </body>
