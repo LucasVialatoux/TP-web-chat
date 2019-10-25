@@ -6,8 +6,16 @@
         <servlet-name>Deco</servlet-name>
         <servlet-class>fr.univlyon1.m1if.m1if03.servlets.Deco</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Groupe</servlet-name>
+        <servlet-class>fr.univlyon1.m1if.m1if03.servlets.GestionGroupe</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Deco</servlet-name>
         <url-pattern>/Deco</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Groupe</servlet-name>
+        <url-pattern>/Groupe</url-pattern>
     </servlet-mapping>
 </web-app>

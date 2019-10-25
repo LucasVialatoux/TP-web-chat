@@ -3,7 +3,7 @@
 <%@page import="fr.univlyon1.m1if.m1if03.classes.Global"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="fr.univlyon1.m1if.m1if03.classes.Billet" %>    
+<%@ page import="fr.univlyon1.m1if.m1if03.classes.Billet" %>   
 <%  
     if (request.getMethod().equals("GET")) {
         if (request.getParameter("idAffiche")!=null) {
