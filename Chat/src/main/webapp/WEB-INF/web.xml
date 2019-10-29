@@ -10,6 +10,14 @@
         <servlet-name>Groupe</servlet-name>
         <servlet-class>fr.univlyon1.m1if.m1if03.servlets.GestionGroupe</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GestionBillet</servlet-name>
+        <servlet-class>fr.univlyon1.m1if.m1if03.servlets.GestionBillet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Redirection</servlet-name>
+        <servlet-class>fr.univlyon1.m1if.m1if03.servlets.Redirection</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Deco</servlet-name>
         <url-pattern>/Deco</url-pattern>
@@ -17,5 +25,13 @@
     <servlet-mapping>
         <servlet-name>Groupe</servlet-name>
         <url-pattern>/Groupe</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GestionBillet</servlet-name>
+        <url-pattern>/GestionBillet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Redirection</servlet-name>
+        <url-pattern>/Redirection</url-pattern>
     </servlet-mapping>
 </web-app>

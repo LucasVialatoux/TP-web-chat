@@ -5,10 +5,11 @@
  */
 package fr.univlyon1.m1if.m1if03.servlets;
 
+import fr.univlyon1.m1if.m1if03.classes.Billet;
+import fr.univlyon1.m1if.m1if03.classes.Global;
 import fr.univlyon1.m1if.m1if03.classes.Groupe;
 import java.io.IOException;
-import java.util.HashMap;
-import javax.servlet.ServletContext;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,42 +24,28 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "User", urlPatterns = {"/User"})
 public class User extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String pseudo = request.getParameter("pseudo");
-        String groupe = request.getParameter("groupe");
-        
-        if((pseudo != null && !pseudo.equals("")) && (groupe != null && !groupe.equals(""))) {
-            ServletContext contexte = request.getServletContext();
-            HashMap<String, Groupe> grpMap = (HashMap)contexte.getAttribute("map");
-            if(grpMap.containsKey(groupe)){
-                if (!grpMap.get(groupe).isParticipant(pseudo)){
-                    grpMap.get(groupe).addParticipants(pseudo);
-                }
-            } else {
-                Groupe newGrp = new Groupe();
-                newGrp.setNom(groupe);
-                newGrp.setProprio(pseudo);
-            }
-            HttpSession session = request.getSession(true);
-            session.setAttribute("groupe", groupe);
-            request.getRequestDispatcher("billet.jsp").forward(request, response);
-        } else {
-            response.sendRedirect("index.html");
-        }
+        request.getRequestDispatcher("WEB-INF/jsp/groupe.jsp").forward(request, response);
     }
     
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
+        session.setAttribute("billet",null);
+        String cle = (String)request.getParameter("groupes");
+        Groupe grp = Global.getNom(cle);
+        session.setAttribute("groupe",grp);
+        session.setAttribute("nomGroupe",cle);
         String pseudo =(String)session.getAttribute("pseudo");
-        String groupe =(String)session.getAttribute("groupe");
-        
-        if((pseudo != null && !pseudo.equals("")) && (groupe != null && !groupe.equals(""))) {
-            request.getRequestDispatcher("billet.jsp").forward(request, response);
-        } else {
-            response.sendRedirect("index.html");
+        if (!grp.getListeParticipants().contains(pseudo)){
+            grp.getListeParticipants().add(pseudo);
         }
+        List<Billet> list = grp.getBillets();
+        session.setAttribute("listeBillet",list);
+        request.getRequestDispatcher("WEB-INF/jsp/billet.jsp").forward(request, response);
     }
 
 }

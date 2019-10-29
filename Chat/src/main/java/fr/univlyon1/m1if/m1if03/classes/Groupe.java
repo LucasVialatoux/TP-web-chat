@@ -3,49 +3,32 @@ package fr.univlyon1.m1if.m1if03.classes;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
 public class Groupe implements Serializable{
-    private String nom, description, proprio;
-    private ArrayList listeParticipants;
-    private GestionBillets gest;
+    private String description, proprio;
+    private ArrayList listeParticipants = new ArrayList();
+    private ArrayList<Billet> listeBillets;
 
     public Groupe() {
     }
 
-    public Groupe(String nom, String description, String proprio, ArrayList listeParticipants, GestionBillets gest) {
-        this.nom = nom;
+    public Groupe(String nom, String description, String proprio, ArrayList listeParticipants) {
         this.description = description;
         this.proprio = proprio;
         this.listeParticipants = listeParticipants;
-        this.gest = gest;
+        Global.groupes.put(nom, this);
+        this.listeBillets = new ArrayList();
     }
     
-    public boolean getCreator(String proprio) {
-        if (this.proprio == proprio) {
-            return true;
-        }
-        return false;
+    public Billet getBillet(int i) {
+        return this.listeBillets.get(i);
     }
     
-    public boolean isParticipant(String username) {
-        if (this.listeParticipants.contains(username)){
-            return true;
-        }
-        return false;
+    public void add(Billet billet) {
+        this.listeBillets.add(billet);
     }
 
-    /**
-     * @return the nom
-     */
-    public String getNom() {
-        return nom;
-    }
-
-    /**
-     * @param nom the nom to set
-     */
-    public void setNom(String nom) {
-        this.nom = nom;
+    public ArrayList getBillets() {
+        return this.listeBillets;
     }
 
     /**
@@ -92,19 +75,5 @@ public class Groupe implements Serializable{
     
     public void addParticipants(String username){
         this.listeParticipants.add(username);
-    }
-
-    /**
-     * @return the gest
-     */
-    public GestionBillets getGest() {
-        return gest;
-    }
-
-    /**
-     * @param gest the gest to set
-     */
-    public void setGest(GestionBillets gest) {
-        this.gest = gest;
     }
 }
