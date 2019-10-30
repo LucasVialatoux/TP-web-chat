@@ -36,6 +36,9 @@ public class User extends HttpServlet {
         HttpSession session = request.getSession(true);
         session.setAttribute("billet",null);
         String cle = (String)request.getParameter("groupes");
+        if (cle == null || cle.equals("")){
+            request.getRequestDispatcher("WEB-INF/jsp/groupe.jsp").forward(request, response);
+        }
         Groupe grp = Global.getNom(cle);
         session.setAttribute("groupe",grp);
         session.setAttribute("nomGroupe",cle);

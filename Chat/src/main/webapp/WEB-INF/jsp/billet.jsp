@@ -39,7 +39,7 @@ if (!list.isEmpty()){
 </form>
 <% } %>
 
-<p><a href="saisie.html">Saisir un nouveau billet</a></p>
+<p><a href="saisie.jsp">Saisir un nouveau billet</a></p>
 <p><a href="Redirection">Choisir un groupe</a></p>
 <p><a href="Deco">Se déconnecter</a></p>
 

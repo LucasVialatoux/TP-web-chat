@@ -20,6 +20,6 @@
         </p>
 
     </form>
-    <p><a href="Deco">DÃ©connexion</a></p>
+    <p><a href="Deco">Déconnexion</a></p>
 </body>
 </html>

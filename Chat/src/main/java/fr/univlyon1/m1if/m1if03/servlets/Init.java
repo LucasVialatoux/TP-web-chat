@@ -21,26 +21,11 @@ public class Init extends HttpServlet {
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String pseudo = request.getParameter("pseudo");
-        
-        if(pseudo != null && !pseudo.equals("")) {
-            HttpSession session = request.getSession(true);
-            session.setAttribute("pseudo", pseudo);
-            request.getRequestDispatcher("WEB-INF/jsp/groupe.jsp").forward(request, response);
-        } else {
-            response.sendRedirect("index.html");
-        }
+        request.getRequestDispatcher("WEB-INF/jsp/groupe.jsp").forward(request, response);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(true);
-        String pseudo =(String)session.getAttribute("pseudo");
-        
-        if(pseudo != null && !pseudo.equals("")) {
-            request.getRequestDispatcher("WEB-INF/jsp/groupe.jsp").forward(request, response);
-        } else {
-            response.sendRedirect("index.html");
-        }
+        request.getRequestDispatcher("WEB-INF/jsp/groupe.jsp").forward(request, response);
     }
 }

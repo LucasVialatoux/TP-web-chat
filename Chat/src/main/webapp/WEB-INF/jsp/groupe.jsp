@@ -1,3 +1,4 @@
+<%@page import="fr.univlyon1.m1if.m1if03.classes.Groupe"%>
 <%@page import="java.util.Map"%>
 <%@page import="fr.univlyon1.m1if.m1if03.classes.Global"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -25,13 +26,20 @@
         <br>
         <form method="post" action="User">
             <br><br>
-            <label for="grp-select">Ou sélectionner un groupe:</label>
+            <label for="grp-select">Puis sélectionnez un groupe:</label>
             
-            <select name="groupes" id="grp-select">
-                <% for (Map.Entry map : Global.groupes.entrySet()) { %>
-                <option value="<%= map.getKey()%>"><%= map.getKey()%></option>
-                <%}; %>
-            </select>
+            <% for (Map.Entry map : Global.groupes.entrySet()) { 
+            Groupe g = (Groupe)map.getValue();
+            %>
+            <br>
+            <input type="radio" id="dewey" name="groupes" value="<%= map.getKey()%>">
+            <label for="groupes"><%= map.getKey()%>
+                Description : <%= (String)g.getDescription()%>
+                Propriétaire : <%= (String)g.getProprio()%>
+            </label>
+            
+            <%}; %>
+            </br>
             <input type="submit" value="Envoyer">
     
         </form>

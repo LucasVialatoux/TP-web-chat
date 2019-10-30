@@ -8,6 +8,10 @@ package fr.univlyon1.m1if.m1if03.servlets;
 import fr.univlyon1.m1if.m1if03.classes.Billet;
 import fr.univlyon1.m1if.m1if03.classes.Groupe;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +49,10 @@ public class GestionBillet extends HttpServlet {
             billet.setAuteur((String) session.getAttribute("pseudo"));
             session.setAttribute("billet",billet);
             grp.add(billet);
+            Date date = Calendar.getInstance().getTime();  
+            DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM YYYY hh:mm:ss z");  
+            String strDate = dateFormat.format(date);
+            response.setHeader("Last-Modified", strDate);
         }
         if (request.getParameter("ID")!=null) {
             Billet b = grp.getBillet(Integer.parseInt(request.getParameter("ID")));
