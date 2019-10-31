@@ -5,7 +5,7 @@
 <!doctype html>
 <html>
 <head>
-    <meta http-equiv="refresh" content="5;url=/GestionBillet" />
+    <meta http-equiv="refresh" content="5;url=GestionBillet" />
     <title>Billet</title>
 </head>
 <body>
