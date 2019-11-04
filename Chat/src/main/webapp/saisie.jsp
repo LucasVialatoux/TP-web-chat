@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Saisie d'un billet</h1>
-    <form method="post" action="billet.jsp">
+    <form method="post" action="GestionBillet">
         <p>
             Titre :
             <input type="text" name="titre">
@@ -20,6 +20,6 @@
         </p>
 
     </form>
-    <p><a href="Deco">DÃ©connexion</a></p>
+    <p><a href="Deco">Déconnexion</a></p>
 </body>
 </html>
