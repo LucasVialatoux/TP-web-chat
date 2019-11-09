@@ -9,7 +9,7 @@
 <html>
 <head>
     <!--<meta http-equiv="refresh" content="5;url=billets" /> -->
-    <title>Billet</title>
+    <title>Liste de billets</title>
 </head>
 <body>
     <%
@@ -36,19 +36,6 @@ if (!list.isEmpty()){
     <div class="contenu"><%= comments %></div>
     <hr>
 <% } %>
-<form method="post" action="billets">
-    <p>
-        Commentaire :
-        <input type="hidden" name="ID" value="<%= b.getID()%>">
-        <input type="text" name="commentaire">
-        <input type="submit" value="Envoyer">
-    </p>
-</form>
-<% } 
-}%>
-<p><a href="<%= URI%>/saisie">Saisir un nouveau billet</a></p>
-<p><a href="../../">Choisir un groupe</a></p>
-<p><a href="/index.html">Se déconnecter</a></p>
 
 </body>
 </html>

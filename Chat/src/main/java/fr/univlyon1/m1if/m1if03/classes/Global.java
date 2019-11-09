@@ -6,6 +6,7 @@
 package fr.univlyon1.m1if.m1if03.classes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -13,9 +14,21 @@ import java.util.HashMap;
  * @author antoine dulhoste
  */
 public class Global  implements Serializable{
-    public static HashMap<String, Groupe> groupes = new HashMap();
+    public static HashMap<String, Groupe> groupe = new HashMap();
+    public static ArrayList<User> userList = new ArrayList();
     
     public static Groupe getNom(String nom){
-        return groupes.get(nom);
+        return groupe.get(nom);
     }
+    
+    public static User getUser(String pseudo){
+        for (User u : userList){
+            if (u.pseudo.equals(pseudo)){
+                return u;
+            }
+        }
+        return null;
+    }
+    
+    
 }

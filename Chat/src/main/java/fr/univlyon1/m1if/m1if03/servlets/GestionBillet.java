@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.univlyon1.m1if.m1if03.servlets;
 
 import fr.univlyon1.m1if.m1if03.classes.Billet;
@@ -13,15 +8,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- *
- * @author lucas
- */
+@WebServlet(name = "GestionBillet", urlPatterns = {"/billets","/billets/*"})
 public class GestionBillet extends HttpServlet {
     
     @Override
@@ -46,7 +39,7 @@ public class GestionBillet extends HttpServlet {
             Billet billet = new Billet();
             billet.setContenu(request.getParameter("contenu"));
             billet.setTitre(request.getParameter("titre"));
-            billet.setAuteur((String) session.getAttribute("pseudo"));
+            //billet.setAuteur((String) session.getAttribute("pseudo"));
             session.setAttribute("billet",billet);
             grp.add(billet);
             Date date = Calendar.getInstance().getTime();  
@@ -59,6 +52,9 @@ public class GestionBillet extends HttpServlet {
             String s = session.getAttribute("pseudo")+": "+request.getParameter("commentaire");
             b.getListeCommentaire().add(s);
         }
+        Billet b = (Billet)session.getAttribute("billet");
+        response.setStatus(HttpServletResponse.SC_FOUND);
+        response.setHeader("Location",request.getRequestURL()+"/"+b.getID());
         request.getRequestDispatcher("WEB-INF/jsp/billet.jsp").forward(request, response);
     }
 }
