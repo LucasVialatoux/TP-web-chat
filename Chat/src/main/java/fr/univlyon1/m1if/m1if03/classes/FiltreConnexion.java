@@ -56,11 +56,11 @@ public class FiltreConnexion implements Filter{
                     return;
                 }
             }else{
-                if (s.length==1) {
+                if (s.length<=2) {
                      resp.setStatus(200);
                      return;
                 }
-                if(!s[2].equals("groupes")){
+                if(s.length>2 && !s[2].equals("groupes")){
                     resp.setStatus(404);
                     return;
                 }else{
