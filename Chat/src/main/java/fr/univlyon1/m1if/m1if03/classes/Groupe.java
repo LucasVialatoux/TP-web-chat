@@ -4,30 +4,41 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Groupe implements Serializable{
-    private String description, proprio;
-    private ArrayList listeParticipants = new ArrayList();
+    private String description,nom;
+    private User auteur;
+    private ArrayList<User>  membres = new ArrayList();
     private ArrayList<Billet> listeBillets;
 
     public Groupe() {
     }
 
-    public Groupe(String nom, String description, String proprio, ArrayList listeParticipants) {
+    public Groupe(String nom, String description, User auteur, ArrayList membres) {
         this.description = description;
-        this.proprio = proprio;
-        this.listeParticipants = listeParticipants;
-        Global.groupes.put(nom, this);
+        this.auteur = auteur;
+        this.membres = membres;
+        Global.groupe.put(nom, this);
+        this.nom = nom;
         this.listeBillets = new ArrayList();
     }
     
+    public String getNom() {
+        return nom;
+    }
+    
     public Billet getBillet(int i) {
-        return this.listeBillets.get(i);
+        for(Billet b:listeBillets){
+            if(b.getID()==i){
+                return b;
+            }
+        }
+        return null;
     }
     
     public void add(Billet billet) {
         this.listeBillets.add(billet);
     }
 
-    public ArrayList getBillets() {
+    public ArrayList<Billet> getBillets() {
         return this.listeBillets;
     }
 
@@ -46,34 +57,41 @@ public class Groupe implements Serializable{
     }
 
     /**
-     * @return the proprio
+     * @return the auteur
      */
-    public String getProprio() {
-        return proprio;
+    public User getAuteur() {
+        return auteur;
     }
 
     /**
-     * @param proprio the proprio to set
+     * @param auteur the auteur to set
      */
-    public void setProprio(String proprio) {
-        this.proprio = proprio;
+    public void setAuteur(User auteur) {
+        this.auteur = auteur;
     }
 
     /**
      * @return the listeParticipants
      */
-    public ArrayList getListeParticipants() {
-        return listeParticipants;
+    public ArrayList<User> getMembres() {
+        return membres;
     }
 
     /**
      * @param listeParticipants the listeParticipants to set
      */
-    public void setListeParticipants(ArrayList listeParticipants) {
-        this.listeParticipants = listeParticipants;
+    public void setMembres(ArrayList listeParticipants) {
+        this.membres = listeParticipants;
     }
     
-    public void addParticipants(String username){
-        this.listeParticipants.add(username);
+    public void addParticipants(User username){
+        this.membres.add(username);
+    }
+
+    /**
+     * @param nom the nom to set
+     */
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 }

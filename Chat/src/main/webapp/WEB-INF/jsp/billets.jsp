@@ -1,4 +1,4 @@
-<%@page import="fr.univlyon1.m1if.m1if03.classes.Commentaire"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="fr.univlyon1.m1if.m1if03.classes.Groupe"%>
 <%@page import="fr.univlyon1.m1if.m1if03.classes.Global"%>
@@ -10,18 +10,15 @@
 <html>
 <head>
     <!--<meta http-equiv="refresh" content="5;url=billets" /> -->
-    <title>Billet</title>
+    <title>Liste de billets</title>
 </head>
 <body>
     <%
-        Billet b = (Billet)request.getAttribute("billet");
+        ArrayList<String> list = (ArrayList<String>)request.getAttribute("liens");
         %>
-        <p> titre = <%= b.getTitre()%></p>
-        <p> contenu = <%=b.getContenu()%></p>
-        <p> auteur = <%=b.getAuteur().pseudo%></p>
-        <p> liste des commentaires :</p>
-        <% for (Commentaire c : b.getListeCommentaire()) { %>
-                <p><%=c.getAuteur().pseudo%> :<%= c.getTexte()%></p>
-        <% } %>
+        <%for(String s : list){%>
+        <p><%=s%></p>
+        <%}; %>
+
 </body>
 </html>

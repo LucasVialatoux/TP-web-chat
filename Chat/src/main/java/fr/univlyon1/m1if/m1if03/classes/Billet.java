@@ -4,18 +4,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Billet  implements Serializable{
-    private String titre, contenu, auteur;
+    private String titre, contenu;
+    private User auteur;
     private static int compteur = 0;
     private int id;
-    private ArrayList<String> listeCommentaire;
+    private ArrayList<Commentaire> commentaires;
 
-    public Billet() {
+    public Billet(String titre,String contenu,User auteur) {
         this.id=compteur;
         compteur++;
-        this.titre = "Rien";
-        this.contenu = "Vide";
-        this.auteur = "Personne";
-        this.listeCommentaire = new ArrayList<>();
+        this.titre = titre;
+        this.contenu = contenu;
+        this.auteur = auteur;
+        this.commentaires = new ArrayList<>();
     }
     
     public String getTitre() {
@@ -34,20 +35,20 @@ public class Billet  implements Serializable{
         this.contenu = contenu;
     }
 
-    public String getAuteur() {
+    public User getAuteur() {
         return auteur;
     }
 
-    public void setAuteur(String auteur) {
+    public void setAuteur(User auteur) {
         this.auteur = auteur;
     }
 
-    public ArrayList<String> getListeCommentaire() {
-        return listeCommentaire;
+    public ArrayList<Commentaire> getListeCommentaire() {
+        return commentaires;
     }
 
-    public void setListeCommentaire(ArrayList<String> listeCommentaire) {
-        this.listeCommentaire = listeCommentaire;
+    public void setListeCommentaire(ArrayList<Commentaire> listeCommentaire) {
+        this.commentaires = listeCommentaire;
     }
     
     public int getID() {
