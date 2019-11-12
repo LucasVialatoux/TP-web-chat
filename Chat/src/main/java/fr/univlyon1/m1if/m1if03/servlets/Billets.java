@@ -49,7 +49,7 @@ public class Billets extends HttpServlet {
                 ArrayList<String> liens=new ArrayList();
                 for(Billet b : g.getBillets()){
                     String lien = request.getScheme()+"://"+request.getServerName()+":"
-                        +request.getServerPort()+"/groupes/"+s[3]+"/billets/"+b.getID();
+                        +request.getServerPort()+"/v2/groupes/"+s[3]+"/billets/"+b.getID();
                     liens.add(lien);
                 }
                 if(request.getHeader("Accept").equals("text/html")){

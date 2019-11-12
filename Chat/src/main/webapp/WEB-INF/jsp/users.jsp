@@ -11,7 +11,7 @@
     </head>
     <body>  
         <% for ( User u: Global.userList) { %>
-        <p><%= request.getScheme()%>://<%= request.getServerName()%>:<%=request.getServerPort()%>/users/<%= u.pseudo%></p>
+        <p><%= request.getScheme()%>://<%= request.getServerName()%>:<%=request.getServerPort()%>/v2/users/<%= u.pseudo%></p>
         <%}; %>
     </body>
 </html>

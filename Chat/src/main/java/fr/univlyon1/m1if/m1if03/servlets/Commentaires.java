@@ -61,7 +61,7 @@ public class Commentaires extends HttpServlet {
                     ArrayList<String> liens=new ArrayList();
                     for(Commentaire c : b.getListeCommentaire()){
                         String lien = request.getScheme()+"://"+request.getServerName()+":"
-                            +request.getServerPort()+"/groupes/"+s[3]+"/billets/"+b.getID()+"/commentaires/"+c.getId();
+                            +request.getServerPort()+"/v2/groupes/"+s[3]+"/billets/"+b.getID()+"/commentaires/"+c.getId();
                         liens.add(lien);
                     }
                     if(request.getHeader("Accept").equals("text/html")){

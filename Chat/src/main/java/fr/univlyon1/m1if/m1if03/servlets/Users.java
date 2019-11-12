@@ -41,7 +41,7 @@ public class Users extends HttpServlet {
             ArrayList<String> liste=new ArrayList();
             for(User u : Global.userList){
                 String s=request.getScheme()+"://"+request.getServerName()+":"
-                        +request.getServerPort()+"/users/"+u.pseudo;
+                        +request.getServerPort()+"/v2/users/"+u.pseudo;
                 liste.add(s);
             }
             

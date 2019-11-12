@@ -38,7 +38,7 @@ public class Groupes extends HttpServlet {
             for (Map.Entry map : Global.groupe.entrySet()) { 
                 Groupe g = (Groupe)map.getValue();
                 String s=request.getScheme()+"://"+request.getServerName()+":"
-                        +request.getServerPort()+"/groupes/"+g.getNom();
+                        +request.getServerPort()+"/v2/groupes/"+g.getNom();
                 liste.add(s);
             }
             
