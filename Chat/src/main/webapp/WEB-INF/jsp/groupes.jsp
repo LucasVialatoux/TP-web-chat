@@ -14,9 +14,7 @@
         <% for (Map.Entry map : Global.groupe.entrySet()) { 
         Groupe g = (Groupe)map.getValue();
         %>
-        <p> nom = <%= map.getKey()%></p>
-        <p> description = <%= (String)g.getDescription()%></p>
-        <p> proprietaire = <%= (String)g.getProprio()%></p>
+        <p><%= request.getScheme()%>://<%= request.getServerName()%>:<%=request.getServerPort()%>/groupes/<%= g.getNom()%></p>
         <%}; %>
         
 

@@ -10,10 +10,17 @@ package fr.univlyon1.m1if.m1if03.classes;
  * @author lucas
  */
 public class Commentaire {
-   private int id;
-   private String texte;
-   private User auteur;
-
+    private int id;
+    private static int compteur = 0;
+    private String texte;
+    private User auteur;
+    
+    public Commentaire(String texte,User auteur){
+        this.id=compteur;
+        compteur++;
+        this.auteur=auteur;
+        this.texte=texte;
+    }
     /**
      * @return the id
      */

@@ -6,7 +6,6 @@
 package fr.univlyon1.m1if.m1if03.classes;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -28,28 +27,28 @@ public class FiltreConnexion implements Filter{
         String URI=request.getRequestURI();
         String[] s=URI.split("/");
         request.setAttribute("URI", URI);
-        
         String pseudo=null;
         String token = request.getHeader("Authorization");
         if (token!=null) {
             pseudo=JWToken.decodeJWT(token);
             if(pseudo!=null){
-                request.setAttribute("pseudo", pseudo);
+                User user= Global.getUser(pseudo);
+                request.setAttribute("user", user);
             }else{
-                resp.sendRedirect("/users");
+                resp.setHeader("Authorization",null);
             }
         }
-        if(pseudo!=null && s[1].equals("groupes")){
+        if(pseudo!=null && s[2].equals("groupes")){
             fc.doFilter(sr, sr1);
         }else{
-            if (s.length>1 && s[1].equals("users")) {
-                if (s.length>2 && s[2].equals("login")) {
+            if (s.length>2 && s[2].equals("users")) {
+                if (s.length>3 && s[3].equals("login")) {
                     request.getRequestDispatcher("/login").forward(request, resp);
                     return;
-                }else if(s.length>2 && s[2].equals("logout")){
+                }else if(s.length>3 && s[3].equals("logout")){
                     request.getRequestDispatcher("/logout").forward(request, resp);
                     return;
-                }else if(s.length>2 && !s[2].equals("")){
+                }else if(s.length>3 && !s[3].equals("")){
                     request.getRequestDispatcher("/user").forward(request, resp);
                     return;
                 }else{
@@ -57,7 +56,18 @@ public class FiltreConnexion implements Filter{
                     return;
                 }
             }else{
-                resp.sendRedirect("/users");
+                if (s.length==1) {
+                     resp.setStatus(200);
+                     return;
+                }
+                if(!s[2].equals("groupes")){
+                    resp.setStatus(404);
+                    return;
+                }else{
+                    resp.setStatus(401);
+                    request.setAttribute("status", 401);
+                    return;  
+                }
             }
         }
     }

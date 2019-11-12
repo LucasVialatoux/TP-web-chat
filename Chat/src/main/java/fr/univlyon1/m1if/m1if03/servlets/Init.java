@@ -10,7 +10,7 @@ import java.io.IOException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 
-@WebServlet(name = "Init", urlPatterns = "/Init")
+
 public class Init extends HttpServlet {
     
     public void init(ServletConfig config,HttpServletRequest request){

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Groupe implements Serializable{
     private String description,nom;
     private User auteur;
-    private ArrayList membres = new ArrayList();
+    private ArrayList<User>  membres = new ArrayList();
     private ArrayList<Billet> listeBillets;
 
     public Groupe() {
@@ -26,14 +26,19 @@ public class Groupe implements Serializable{
     }
     
     public Billet getBillet(int i) {
-        return this.listeBillets.get(i);
+        for(Billet b:listeBillets){
+            if(b.getID()==i){
+                return b;
+            }
+        }
+        return null;
     }
     
     public void add(Billet billet) {
         this.listeBillets.add(billet);
     }
 
-    public ArrayList getBillets() {
+    public ArrayList<Billet> getBillets() {
         return this.listeBillets;
     }
 
@@ -68,7 +73,7 @@ public class Groupe implements Serializable{
     /**
      * @return the listeParticipants
      */
-    public ArrayList getMembres() {
+    public ArrayList<User> getMembres() {
         return membres;
     }
 
@@ -79,7 +84,14 @@ public class Groupe implements Serializable{
         this.membres = listeParticipants;
     }
     
-    public void addParticipants(String username){
+    public void addParticipants(User username){
         this.membres.add(username);
+    }
+
+    /**
+     * @param nom the nom to set
+     */
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 }

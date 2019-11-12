@@ -8,14 +8,14 @@ public class Billet  implements Serializable{
     private User auteur;
     private static int compteur = 0;
     private int id;
-    private ArrayList<String> commentaires;
+    private ArrayList<Commentaire> commentaires;
 
-    public Billet() {
+    public Billet(String titre,String contenu,User auteur) {
         this.id=compteur;
         compteur++;
-        this.titre = "Rien";
-        this.contenu = "Vide";
-        this.auteur = new User();
+        this.titre = titre;
+        this.contenu = contenu;
+        this.auteur = auteur;
         this.commentaires = new ArrayList<>();
     }
     
@@ -43,11 +43,11 @@ public class Billet  implements Serializable{
         this.auteur = auteur;
     }
 
-    public ArrayList<String> getListeCommentaire() {
+    public ArrayList<Commentaire> getListeCommentaire() {
         return commentaires;
     }
 
-    public void setListeCommentaire(ArrayList<String> listeCommentaire) {
+    public void setListeCommentaire(ArrayList<Commentaire> listeCommentaire) {
         this.commentaires = listeCommentaire;
     }
     
