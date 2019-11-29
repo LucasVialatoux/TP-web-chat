@@ -137,10 +137,7 @@ function loadListeGrp(mustMock){
 		for (var elem in liste){
 			var pieces = liste[elem].split("/");
 			listHtml+=('<li id="'+pieces[pieces.length-1]+'">'
-				+'<input type="button" class="refGetGrp btn btn-info" name="'+compteur+'" value="'+pieces[pieces.length-1]+'">'
-				+'<input type="button" class="refInsGrp btn btn-success" name="'+compteur+'" value="S\'inscrire">'
-				+'<input type="button" class="refDesinGrp btn btn-primary" name="'+compteur+'" value="Se désinscrire">'
-				+'<input type="button" class="refDeleteGrp btn btn-danger" name="'+compteur+'" value="Supprimer"></li>');
+				+'<input type="button" class="refGetGrp btn btn-info" name="'+compteur+'" value="'+pieces[pieces.length-1]+'">');
 			compteur++;
 		}
 	}
@@ -282,7 +279,7 @@ $(function () {
 	$("#formDeco").submit(event =>{
 		event.preventDefault();
 		var isChecked = $('#checkUser').is(':checked');
-		if isChecked{
+		if (isChecked){
 
 		}
 		var jsonToSend = {};
