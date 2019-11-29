@@ -3,26 +3,7 @@
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <display-name>Archetype Created Web Application</display-name>
     <!-- déclaration de la classe d'implémentation du filtre -->
-    <filter>
-        <filter-name>FiltreConnexion</filter-name>
-        <filter-class>fr.univlyon1.m1if.m1if03.classes.FiltreConnexion</filter-class>
-    </filter>
-    <!-- déclaration des URL interceptées par ce filtre -->
-    <filter-mapping>
-        <filter-name>FiltreConnexion</filter-name>
-        <!-- on aurait pu aussi définir une servlet filtrée, par un élément servlet-name -->
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-    <filter>
-        <filter-name>Routeur</filter-name>
-        <filter-class>fr.univlyon1.m1if.m1if03.classes.Routeur</filter-class>
-    </filter>
-    <!-- déclaration des URL interceptées par ce filtre -->
-    <filter-mapping>
-        <filter-name>Routeur</filter-name>
-        <!-- on aurait pu aussi définir une servlet filtrée, par un élément servlet-name -->
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    
     <servlet>
         <servlet-name>users</servlet-name>
         <servlet-class>fr.univlyon1.m1if.m1if03.servlets.Users</servlet-class>

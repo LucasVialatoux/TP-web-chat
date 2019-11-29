@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <title>Mes Copains !</title>
+        <meta charset="UTF-8">
+        <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="index.js"></script>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <aside>
+            <ul class="navbar navbar-dark bg-primary">
+                <li><a href='#index'>Accueil</a></li>
+                <li><a href='#groupes'>Groupes</a></li>
+                <li><a href='#groupe'>Groupe</a></li>
+                <li><a href='#billet'>Billet</a></li>
+                <li><a href='#users'>Utilisateurs</a></li>
+                <li><a href='#deco'>Déconnexion</a></li>
+            </ul>
+        </aside>
+        <div id="errMsg">
+        	<span id="errMsgSpan" class="text-danger row justify-content-center" style="display: none"></span>
+        </div>
+        <section id='index' class='active'>
+            <h1>Bienvenue sur Chatons.org</h1>
+            <form id="formInit" method="post" action="Init" class="form container">
+                <div class="form-row justify-content-center">
+                    <div class="form-group col-md-4">
+                        <label for="inputPseudo">Entrez un pseudo</label>
+                        <input type="text" class="form-control" id="inputPseudo" name="pseudo" placeholder="pseudo">
+                    </div>
+                </div>
+                <div class="form-row justify-content-center">
+                    <input type="submit" class="btn btn-primary" value="Connexion">
+                </div>
+            </form>
+        </section>
+        <section id='groupes' class='inactive'>
+            <div class="card">
+                <h2 class="card-header">Liste des groupes</h2>
+                
+                <!-- Pour chaque élément de la liste, l'interface doit proposer à l'utilisateur de :
+                    - s'inscrire au groupe
+                    - se désinscrire du groupe
+                    - accéder au groupe
+                    - supprimer le groupe
+                    Les résultats de l'opération invoquée par le client seront affichés dans le div "errMsg" -->
+                <ul id="groupesList">
+                    <script id="grpList"  type="x-tmpl-mustache">
+    					{{{listGroupe}}}
+                    </script>
+                </ul>
+            </div>
+            <div class="card">
+                <form id="formGroupes" method="post" action="CreateGroupe">
+                    <h3>Créer un nouveau groupe</h3>
+                    <div class="form-row justify-content-center">
+                        <div class="form-group col-md-4">
+                            <label for="titreBillet">Titre du groupe</label>
+                            <input id="inputGroupe" type="text" name="groupe" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <input type="submit" value="Créer" class="btn btn-success">
+                    </div>
+                </form>
+            </div>
+            <div class="row justify-content-center">
+                <p><a href='#deco' class="btn btn-secondary">Déconnexion</a></p>
+            </div>
+        </section>
+        <section id='groupe' class='inactive'>
+            <div id="divGrp" class="justify-content-center">
+                <script id="grpID"  type="x-tmpl-mustache">
+                    <div class="card">
+                        <h2 class="card-header">Groupe {{nom}}</h2>
+                        <h3>Description</h3>
+                        <p id="grpDesc">{{description}}</p>
+                        <p id="grpDesc">auteur : {{auteur}}</p>
+                    </div>
+                    
+                </script>
+            </div>
+            <div id="groupeSuite" class="justify-content-center">
+                <script id="billetID"  type="x-tmpl-mustache">
+                    <div class="card">
+                        <h3>Billets</h3>
+                        <!-- Pour chaque élément de la liste, l'interface doit proposer à l'utilisateur de :
+                            - visualiser le billet
+                            - modifier le titre du billet (aide : attribut contenteditable)
+                            - supprimer le billet
+                        -->
+                        <ul id="bltList">{{{bList}}}</ul>
+                    </div>
+                </script>
+            </div>
+            <div class="card">
+                <form method='post' action='Billets' class="form container">
+                    <h3>Créer un nouveau billet :</h3>
+                    <div class="form-row justify-content-center">
+                        <div class="form-group col-md-4">
+                            <label for="titreBillet">Titre du billet</label>
+                            <input type='text' class="form-control" name='titre' id="titreBillet">
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="form-group col-md-4">
+                            <label for="contenuBillet">Contenu du billet</label>
+                            <textarea name="contenu"  class="form-control" id="contenuBillet"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <input type='submit' value='Envoyer' class="btn btn-success">
+                    </div>
+                </form>
+            </div>
+            <div class="row justify-content-center">
+                <p><a href='#groupes' class="btn btn-primary">Liste des groupes</a></p>
+            </div>
+        </section>
+        <section id='billet' class='inactive'>
+            <div id="divBlt">
+                <script id="bltID"  type="x-tmpl-mustache">
+                <div class="card">
+                    <h1 id="bltTitre" class="card-header">{{titre}}</h1>
+                    <div class="card-body" id="bltContenu">
+                        <h2 class="card-title">Ceci est un billet de <span id='bltAuteur'>{{auteur}}</span></h2>
+                        {{contenu}}
+                    </div>
+                </div> 
+                </script>
+            </div>
+             <div id="billetSuite">
+                <script id="commentID"  type="x-tmpl-mustache">
+                    <div class="card">
+                        <div class="card-body" id="bltContenu">
+                            <h2>Commentaires</h2>
+                            <!-- Pour chaque élément de la liste, l'interface doit proposer à l'utilisateur de :
+                                - modifier le commentaire
+                                - supprimer le commentaire
+                            -->
+                            <ul id='commentList'>
+                                {{{cList}}}
+                            </ul>
+                        </div>
+                    </div>
+                </script>
+            </div>
+            <div class="card">
+                <form method="post" action="Commentaires" class="container">
+                    <h3>Ajouter un commentaire</h3>
+                    <div class="form-row justify-content-center">
+                        <div class="form-group col-md-4">
+                            <label for="newComment">Contenu du commentaire</label>
+                            <input type="text" name="commentaire" class="form-control" id="newComment">
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <input type="submit" value="Envoyer" class="btn btn-success">
+                    </div>
+                </form>
+            </div>
+            <div class="row justify-content-center">
+                <p>
+                    <a href="#groupe" class="btn btn-primary">Retour au groupe</a>
+                    <a href="#deco" class="btn btn-secondary">Se déconnecter</a>
+                </p>
+            </div>
+        </section>
+        <section id='users' class='inactive'>
+            <div class="card">
+                <h2 class="card-header">Liste des utilisateurs</h2>
+                <!-- Rien de particulier à faire ici, juste lister les pseudos. -->
+                <ul id='usersList'>
+                    <script id="usrList"  type="x-tmpl-mustache">
+                        {{{listUser}}}
+                    </script>
+                </ul>
+            </div>
+            <div class="row justify-content-center">
+                <p><a href='#deco' class="btn btn-secondary">Déconnexion</a></p>
+            </div>
+        </section>
+        <section id='deco' class='inactive'>
+            
+            <div class="card">
+                <h2 class="card-header">Déconnexion</h2>
+                <form method="post" action="Deco" class="form container" id="formDeco">
+                    <div class="form-row justify-content-center">
+                        <p>Validez ce formulaire pour vous déconnecter :</p>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input"  id="checkUser" name="user">
+                            <label class="form-check-label" for="checkUser">Supprimer l'utilisateur</label>
+                        </div>
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <input type="submit" class="btn btn-secondary" value="Déconnexion">
+                    </div>
+                </form>
+            </div>
+            <div class="row justify-content-center">
+                <p><a href='#index' class="btn btn-primary">Retour à la page d'accueil</a></p>
+            </div>
+        </section>
+    </body>
+</html>
