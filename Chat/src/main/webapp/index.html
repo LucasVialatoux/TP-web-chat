@@ -9,7 +9,7 @@
         <script src="index.js"></script>
         <link rel="stylesheet" href="index.css">
     </head>
-    <body>
+    <body onload="eventToLoad();">
         <aside>
             <ul class="navbar navbar-dark bg-primary">
                 <li><a href='#index'>Accueil</a></li>
@@ -75,13 +75,42 @@
             <div id="divGrp" class="justify-content-center">
                 <script id="grpID"  type="x-tmpl-mustache">
                     <div class="card">
-                        <h2 class="card-header">Groupe {{nom}}</h2>
+                        <h2 class="card-header" id="nomGroupeID">{{nom}}</h2>
                         <h3>Description</h3>
                         <p id="grpDesc">{{description}}</p>
                         <p id="grpDesc">auteur : {{auteur}}</p>
                     </div>
                     
                 </script>
+            </div>
+            <div id="divBltOption">
+                <div class="card">
+                    <div class="card-body" id="bltContenu">
+                        <h2>Options groupe</h2>
+                        <form method='post' action='' class="form container">
+                            <div class="form-row justify-content-center">
+                                <div class="form-group col-md-4">
+                                    <label for="nomMembreGrp">Nom du membre</label>
+                                    <input type='text' class="form-control" name='titre' id="nomMembreGrp">
+                                </div>
+                            </div>
+                            <div class="form-row justify-content-center">
+                                <input type='submit' value='Ajouter membre' class="btn btn-success">
+                            </div>
+                        </form>
+                        <form method='post' action='' class="form container">
+                            <div class="form-row justify-content-center">
+                                <div class="form-group col-md-4">
+                                    <label for="nomMembreGrpDel">Nom du membre</label>
+                                    <input type='text' class="form-control" name='titre' id="nomMembreGrpDel">
+                                </div>
+                            </div>
+                            <div class="form-row justify-content-center">
+                                <input type='submit' value='Supprimer membre' class="btn btn-danger">
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
             <div id="groupeSuite" class="justify-content-center">
                 <script id="billetID"  type="x-tmpl-mustache">
@@ -97,7 +126,7 @@
                 </script>
             </div>
             <div class="card">
-                <form method='post' action='Billets' class="form container">
+                <form method='post' action='' class="form container" id="formBillet">
                     <h3>Créer un nouveau billet :</h3>
                     <div class="form-row justify-content-center">
                         <div class="form-group col-md-4">
@@ -132,6 +161,7 @@
                 </div> 
                 </script>
             </div>
+            
              <div id="billetSuite">
                 <script id="commentID"  type="x-tmpl-mustache">
                     <div class="card">
