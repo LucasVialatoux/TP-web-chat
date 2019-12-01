@@ -9,7 +9,7 @@
         <script src="index.js"></script>
         <link rel="stylesheet" href="index.css">
     </head>
-    <body onload="eventToLoad();">
+    <body>
         <aside>
             <ul class="navbar navbar-dark bg-primary">
                 <li><a href='#index'>Accueil</a></li>
@@ -161,7 +161,19 @@
                 </div> 
                 </script>
             </div>
-            
+            <div id="optionBillet">
+                <div class="card">
+                    <div class="card-body" id="bltContenu">
+                        <h3>Option de billet :</h3>
+                        <div class="form-row justify-content-center">
+                            <div class="form-group col-md-4">
+                                <input type="button" class="btn btn-warning" value="Modifier">
+                                <input type="button" class="btn btn-danger" value="Supprimer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
              <div id="billetSuite">
                 <script id="commentID"  type="x-tmpl-mustache">
                     <div class="card">
@@ -179,7 +191,7 @@
                 </script>
             </div>
             <div class="card">
-                <form method="post" action="Commentaires" class="container">
+                <form method="post" action="Commentaires" class="container" id="formCommentaire">
                     <h3>Ajouter un commentaire</h3>
                     <div class="form-row justify-content-center">
                         <div class="form-group col-md-4">

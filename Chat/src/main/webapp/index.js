@@ -2,16 +2,17 @@ var URL_CONNEXION = "https://192.168.75.13/api/v2/users/login";
 var URL_DECONNEXION = "https://192.168.75.13/api/v2/users/logout";
 var URL_USERS = "https://192.168.75.13/api/v2/users";
 var URL_GROUPES = "https://192.168.75.13/api/v2/groupes";
-var isLoaded = false;
+
+
 
 /*
 *	Créer une liste
 */
 function loadListe(mustMock){
+	var listHtml='';
 	if (mustMock != null){
 		var liste = Mustache.render("{{{.}}}", mustMock);
 		liste = liste.split(",");
-		var listHtml='';
 		for (var elem in liste){
 			var pieces = liste[elem].split("/");
 			listHtml+=('<li><p>'+pieces[pieces.length-1]+'</p></li>');
@@ -24,23 +25,27 @@ function loadListe(mustMock){
 *	liste de billets
 */
 function loadListeBlt(mustMock){
-	console.log(mustMock);
+	var listHtml='';
 	if (mustMock != null){
 		var liste = Mustache.render("{{{billets}}}", mustMock);
-		console.log(liste.length);
 		liste = liste.split(",");
-		var listHtml='';
 		var cpt=0;
+		var noBillet = true;
 		if (liste.length > 0){
 			for (var elem in liste){
 				var pieces = liste[elem].split("/");
-				listHtml+=('<li><input type="button" class="btn btn-info" name="'+cpt+'" value="'+pieces[pieces.length-1]+'">'
-					+'<input type="button" class="btn btn-warning" name="'+cpt+'" value="Modifier">'
-					+'<input type="button" class="btn btn-danger" name="'+cpt+'" value="Supprimer"></li>');
+				if (pieces[pieces.length-1]!=""){
+					noBillet = false;
+				}
+				listHtml+=('<li><input type="button" class="refGetBlt btn btn-info" name="'+cpt+'" value="Billet n°'+pieces[pieces.length-1]+'"></li>');
 				cpt++;
 			}
+			listHtml+=('<p>Nombre de billets : <span id="nombreBillet">'+cpt+'</span></p>');
+			if (noBillet==true){
+				listHtml=('<h3>Aucun Billets</h3><p>Nombre de billes : <span id="nombreBillet">0</span></p>');
+			}
 		} else {
-			listHtml+=('<h3>Aucun Billets</h3>');
+			listHtml=('<h3>Aucun Billets</h3>');
 		}
 	}
 	return listHtml;
@@ -49,18 +54,30 @@ function loadListeBlt(mustMock){
 /*
 *	liste de commentaires
 */
-function loadListeCmt(mustMock){
+function loadListeCmt(mustMock,idDuBlt){
+	var listHtml='<p name="'+idDuBlt+'" id="IDBillet">ID Billet actuel :'+idDuBlt+'</p>';
 	if (mustMock != null){
-		var liste = Mustache.render("{{{.}}}", mustMock);
+		var liste = Mustache.render("{{{commentaires}}}", mustMock);
 		liste = liste.split(",");
-		var listHtml='';
 		var compt=0;
-		for (var elem in liste){
-			var pieces = liste[elem].split("/");
-			listHtml+=('<li>'+pieces[pieces.length-1]
-				+'<input type="button" class="btn btn-warning" name="'+compt+'" value="Modifier">'
-				+'<input type="button" class="btn btn-danger" name="'+compt+'" value="Supprimer"></li>');
-			compt++;
+		var noComment = true;
+		if (liste.length > 0){
+			for (var elem in liste){
+				var pieces = liste[elem].split("/");
+				if (pieces[pieces.length-1]!=""){
+					noComment = false;
+				}
+				listHtml+=('<li id="'+pieces[pieces.length-1]+'">'+pieces[pieces.length-1]
+					+'<input type="button" class="refDeleteCmt btn btn-danger" name="'+pieces[pieces.length-1]+'" value="Supprimer"></li>');
+				compt++;
+			}
+			listHtml+=('<p>Nombre de commentaires : <span id="nombreCommentaire">'+compt+'</span></p>');
+			if (noComment==true){
+				listHtml=('<h3>Aucun commentaires</h3><p name="'+idDuBlt+'" id="IDBillet">ID Billet actuel :'+idDuBlt+' </p>'
+					+'<p>Nombre de commentaires : <span id="nombreCommentaire">0</span></p>');
+			}
+		} else {
+			listHtml=('<h3>Aucun commentaires</h3><p name="'+idDuBlt+'" id="IDBillet">ID Billet actuel :'+idDuBlt+' </p>');
 		}
 	}
 	return listHtml;
@@ -90,7 +107,7 @@ function loadListeGrp(mustMock){
 /*
 *	Contrôleur d'affichage
 */
-function afficher(idScript,donnees,idHtml){
+function afficher(idScript,donnees,idHtml,idObjet){
 	var donneesScript = $(idScript).html();
 	//Mustache.parse(donneesScript);
 	switch(idScript){
@@ -123,32 +140,26 @@ function afficher(idScript,donnees,idHtml){
 			}
 			break;
 		case '#commentID':
-			var listHtml = loadListeCmt(donnees,'commentaires');
+			var listHtml = loadListeCmt(donnees,idObjet);
 			if (donneesScript!=null){
 				var rendered = Mustache.render(donneesScript, {cList: listHtml}  );
 			}
 			break;
 	}
-	//if (idScript=='#grpList'){
-		if (rendered!=null){
-			$(idHtml).load(idScript,function(){
-				$(idHtml).html(rendered);
-				eventToLoad();
-			});
-		}
-	/*} else {
-		$(idHtml).empty().html(rendered);
+
+	if (rendered!=null){
+		$(idHtml).load(idScript,function(){
+			$(idHtml).html(rendered);
+		});
 	}
-	if (!isLoaded){
-		
-	}*/
+	
 }
 
 
 /*
 *	Contrôleur de template
 */
-function gerer(hash,donnees){
+function gerer(hash,donnees,idObjet){
 	var idScript="";
 	var idHtml="";
 	switch(hash){
@@ -170,16 +181,14 @@ function gerer(hash,donnees){
 			break;
 	}
 	if (idScript != "" && donnees != "" && idHtml != ""){
-		afficher(idScript,donnees,idHtml);
+		afficher(idScript,donnees,idHtml,idObjet);
 		if (idScript=="#grpID"){
-			afficher('#billetID',donnees,'#groupeSuite');
+			afficher('#billetID',donnees,'#groupeSuite',idObjet);
 		}
 		if (idScript=="#bltID"){
-			afficher('#commentID',donnees,'#billetSuite');
+			afficher('#commentID',donnees,'#billetSuite',idObjet);
 		}
 		
-	} else {
-		//window.location.hash="#index";
 	}
 	
 }
@@ -192,7 +201,6 @@ window.addEventListener(
 	'hashchange',
 	() => {
 		show(window.location.hash);
-		$("#errMsgSpan").hide();
 	}
 );
 
@@ -200,18 +208,32 @@ window.addEventListener(
 *	Plier / déplier menu et vues
 */
 function show(hash) {
+
+	$("#errMsgSpan").hide();
+
 	$('.active')
 	.removeClass('active')
 	.addClass('inactive');
 	$(hash)
 	.removeClass('inactive')
 	.addClass('active');
-
+	
+	if (hash != '#index'){
+		var pseudoActuel = getCookie("pseudo");
+		if (pseudoActuel == "" || pseudoActuel == null){
+			window.location.hash="#index";
+		}
+	}
+	
 	if(hash=="#users"){
 		submitUsers();
 	} else if (hash == '#groupes'){
 		getDatas(URL_GROUPES,'GET','responseGetGroupes','#groupes');
 	}
+	
+
+	
+	
 };
 
 
@@ -219,7 +241,7 @@ function show(hash) {
 /*
 *	Instanciation des events
 */
-$(function () {
+$(document).ready(function(){ 
 	/**
 	 * Gérer le submit du formulaire de connexion
 	 */
@@ -257,12 +279,13 @@ $(function () {
 	/**
 	 * Gérer le submit du formulaire de création de groupe
 	 */
-	$("#formGroupes").submit(event =>{
+	$("#formGroupes").submit(function(event){
 		event.preventDefault();
 		var jsonToSend = {
 			nom: $('#inputGroupe').val()
 		};
 		submitFetch(jsonToSend,URL_GROUPES,'POST','creationGroupe',$('#inputGroupe').val());
+	  	return false;
 	});
 
 	/**
@@ -278,37 +301,44 @@ $(function () {
 		};
 		var nomGrp = $('#nomGroupeID').html();
 		var URL_MODIFIED = URL_GROUPES+'/'+nomGrp+'/billets';
-		submitFetch(jsonToSend,URL_MODIFIED,'POST','creationBillet',$('#titreBillet').val(),nomGrp);
+		submitFetch(jsonToSend,URL_MODIFIED,'POST','creationBillet',$('#nombreBillet').html(),nomGrp);
 	});
-});
 
-/**
-* Afficher liste de user
-*/
-function submitUsers(){
-	getDatas(URL_USERS, 'GET', 'responseGetUsers','#users');
-}
 
-/*
-*	Fonction pour instancer certains events
-*/
-function eventToLoad(){
-	isLoaded = true;
+	/**
+	 * Gérer le submit du formulaire de création de commentaire
+	 */
+	$("#formCommentaire").submit(event =>{
+		event.preventDefault();
+		var pseudoCookie = getCookie("pseudo");
+		var jsonToSend = {
+			auteur: pseudoCookie,
+			texte: $('#newComment').val()
+		};
+		var nomBlt = $('#IDBillet').attr('name');
+		var nomGrp = $('#nomGroupeID').html();
+		var URL_MODIFIED = URL_GROUPES+'/'+nomGrp+'/billets/'+nomBlt+'/commentaires';
+		submitFetch(jsonToSend,URL_MODIFIED,'POST','creationCommentaire');
+	});
+
+
 	/**
      * Event du bouton de get à un groupe
      */
-    $("#groupesList li .refGetGrp").bind("click",function(event) {
-    	var idCliqued=event.target.name;
+
+    $( "#groupesList" ).on( "click", ".refGetGrp", function(event) {
+    	event.preventDefault();
+	    var idCliqued=event.target.name;
     	var nomGrp = $("#groupesList li").get(idCliqued).id;
         var URL_MODIFIED = URL_GROUPES+"/"+nomGrp;
         getDatas(URL_MODIFIED,'GET','responseGetGrp','#groupe');
-    });
-
+	});
 
 	/**
      * Event du bouton d'inscription à un groupe
      */
-    $("#groupesList li .refInsGrp").bind("click",function(event) {
+    $("#groupesList").on("click",".refInsGrp",function(event) {
+    	event.preventDefault();
     	var idCliqued=event.target.name;
     	var nomGrp = $("#groupesList li").get(idCliqued).id;
     	var pseudo = getCookie("pseudo");
@@ -324,7 +354,8 @@ function eventToLoad(){
     /**
      * Event du bouton de désinscription à un groupe
      */
-    $("#groupesList li .refDesinGrp").bind("click",function(event) {
+    $("#groupesList").on("click",".refDesinGrp",function(event) {
+    	event.preventDefault();
     	var idCliqued=event.target.name;
     	var nomGrp = $("#groupesList li").get(idCliqued).id;
     	var jsonToSend = {
@@ -337,7 +368,8 @@ function eventToLoad(){
     /**
      * Event du bouton de suppression d'un groupe
      */
-    $("#groupesList li .refDeleteGrp").bind('click',function(event) {
+    $("#groupesList").on("click",".refDeleteGrp",function(event) {
+    	event.preventDefault();
     	var idCliqued=event.target.name;
     	var jsonToSend = {};
     	var nomGrp = $("#groupesList li").get(idCliqued).id;
@@ -345,7 +377,50 @@ function eventToLoad(){
 		submitFetch(jsonToSend,URL_MODIFIED,'DELETE','responseDeleteGrp',nomGrp);
     });
 
+    
+    /**
+     * Event du bouton de suppression d'un comentaire
+     */
+    $("#commentList").on("click",".refDeleteCmt",function(event) {
+    	event.preventDefault();
+    	var nomCmt=event.target.name;
+    	var jsonToSend = {};
+    	var nomBlt = $('#IDBillet').attr('name');
+    	var nomGrp = $("#nomGroupeID").html();
+    	if (nomBlt != "" && nomBlt != null && nomGrp != "" && nomGrp != null && nomCmt != "" && nomCmt != null){
+    		var URL_MODIFIED = URL_GROUPES+"/"+nomGrp+"/billets/"+nomBlt+"/commentaires/"+nomCmt;
+    		console.log('URL SUPPRESSION COMMENT : '+URL_MODIFIED);
+			submitFetch(jsonToSend,URL_MODIFIED,'DELETE','responseDeleteCmt',nomCmt);
+    	} else {
+    		$('#errMsgSpan').text("Un problème est survenu");
+    		$("#errMsgSpan").show();
+    	}
+        
+    });
 
+    /**
+     * Event du bouton de get à un billet
+     */
+    $("#bltList").on("click",".refGetBlt",function(event) {
+    	event.preventDefault();
+    	var nomBlt=event.target.name;
+    	var nomGrp=$('#nomGroupeID').html();
+    	if (nomBlt != "" && nomBlt != null && nomGrp != "" && nomGrp != null){
+    		var URL_MODIFIED = URL_GROUPES+"/"+nomGrp+"/billets/"+nomBlt;
+        	getDatas(URL_MODIFIED,'GET','responseGetBlt','#billet',nomBlt);
+    	} else {
+    		$('#errMsgSpan').text("Un problème est survenu");
+    		$("#errMsgSpan").show();
+    	}
+        
+    });
+});
+
+/**
+* Afficher liste de user
+*/
+function submitUsers(){
+	getDatas(URL_USERS, 'GET', 'responseGetUsers','#users');
 }
 
 
@@ -380,6 +455,10 @@ function submitFetch(jsonToSend, URL, methodToUse, responseToUse,idObjet,idGrp){
     			responsePostGroupe(response,idObjet);
     		} else if(responseToUse=='creationBillet'){
     			responsePostBillet(response,idObjet,idGrp);
+    		} else if(responseToUse=='responseDeleteCmt'){
+    			responseDeleteCmt(response,idObjet);
+    		} else if (responseToUse=='creationCommentaire'){
+    			responsePostCommentaire(response);
     		}
     	})
 	.catch(function(error){
@@ -396,6 +475,10 @@ function submitFetch(jsonToSend, URL, methodToUse, responseToUse,idObjet,idGrp){
     			responsePostGroupe(error);
     		} else if(responseToUse=='creationBillet'){
     			responsePostBillet(error);
+    		} else if(responseToUse=='responseDeleteCmt'){
+    			responseDeleteCmt(error);
+    		} else if (responseToUse=='creationCommentaire'){
+    			responsePostCommentaire(error);
     		}
 		});
 }
@@ -403,7 +486,7 @@ function submitFetch(jsonToSend, URL, methodToUse, responseToUse,idObjet,idGrp){
 /**
 * Fetch sans json
 */
-function getDatas(URL, methodToUse, responseToUse,hash){
+function getDatas(URL, methodToUse, responseToUse,hash,idObjet){
 	var options = {
 		method: methodToUse,
 		credentials: 'include',
@@ -419,18 +502,22 @@ function getDatas(URL, methodToUse, responseToUse,hash){
 			responseGetGroupes(response);
 		} else if (responseToUse == 'responseGetGrp'){
 			responseGetUnGroupe(response);
+		} else if (responseToUse == 'responseGetBlt'){
+			responseGetUnBillet(response);
 		}
 	  	return response.json();
 	}).then(function(parsedJson) {
 		//console.log(parsedJson);
-	  	gerer(hash,parsedJson);
+	  	gerer(hash,parsedJson,idObjet);
 	})
 	.catch(function(error){
 			if (responseToUse=='getGroupes'){
     			responseGetGroupes(error);
     		} else if (responseToUse == 'responseGetGrp'){
     			responseGetUnGroupe(error);
-    		}
+    		} else if (responseToUse == 'responseGetBlt'){
+			responseGetUnBillet(error);
+		}
 		});
 }
 
@@ -505,13 +592,14 @@ function responsePostGroupe(response,idObjet) {
 /**
 * Création billet
 */
-function responsePostBillet(response,idObjet,idGrp) {
+function responsePostBillet(response,nbBillet,idGrp) {
 	if(response.status == 201){
 		$("#errMsgSpan").hide();
 		$('#titreBillet').val("");
 		$('#contenuBillet').val("");
-		window.location.hash ='#billet';
-		getDatas(URL_GROUPES+"/"+idGrp+"/"+idObjet,'GET','responseGetBlt','#billet');
+		URL_MODIFIED=URL_GROUPES+"/"+idGrp+"/billets/"+parseInt(nbBillet);
+		getDatas(URL_MODIFIED,'GET','responseGetBlt','#billet');
+		nbBillet+=1;
 	}else if (response.status == 400){
 		$('#errMsgSpan').text("Pas de paramètres acceptables dans la requête");
     	$("#errMsgSpan").show();
@@ -527,6 +615,31 @@ function responsePostBillet(response,idObjet,idGrp) {
     	$("#errMsgSpan").show();
 	}
 }
+
+/**
+* Création commentaire
+*/
+function responsePostCommentaire(response) {
+	if(response.status == 201){
+		$('#newComment').val("");
+		$('#errMsgSpan').text("Commentaire créé avec succès");
+    	$("#errMsgSpan").show();
+	}else if (response.status == 400){
+		$('#errMsgSpan').text("Pas de paramètres acceptables dans la requête");
+    	$("#errMsgSpan").show();
+	}else if (response.status == 401){
+		location.reload();
+		$('#errMsgSpan').text("Veuillez vous authentifier");
+    	$("#errMsgSpan").show();
+    }else if (response.status == 403){
+		$('#errMsgSpan').text("Utilisateur non membre du groupe");
+    	$("#errMsgSpan").show();
+	}else if (response.status == 415){
+		$('#errMsgSpan').text("Format de requête incorrect ou non implémenté");
+    	$("#errMsgSpan").show();
+	}
+}
+
 
 /**
 * Delete groupe
@@ -548,6 +661,28 @@ function responseDeleteGrp(response,idGrp){
     	$("#errMsgSpan").show();
 	}
 }
+
+/**
+* Delete comentaire
+*/
+function responseDeleteCmt(response,idCmt){
+	if (response.status==204){
+		$("#errMsgSpan").hide();
+		$("#"+idCmt).hide();
+		window.location.hash ='#billet';
+	}else if (response.status == 401){
+		location.reload();
+		$('#errMsgSpan').text("Veuillez vous authentifier");
+    	$("#errMsgSpan").show();
+    }else if (response.status == 403){
+		$('#errMsgSpan').text("Utilisateur non membre du groupe");
+    	$("#errMsgSpan").show();
+	} else if (response.status == 404){
+		$('#errMsgSpan').text("Commentaire non trouvé");
+    	$("#errMsgSpan").show();
+	}
+}
+
 
 /**
 * Get listes groupe
@@ -581,6 +716,29 @@ function responseGetUnGroupe(response){
     	$("#errMsgSpan").show();
 	} else if (response.status == 404){
 		$('#errMsgSpan').text("Groupe non trouvé");
+    	$("#errMsgSpan").show();
+	} else if (response.status == 406){
+		$('#errMsgSpan').text("Format de réponse demandé incorrect ou indisponible");
+    	$("#errMsgSpan").show();
+	}
+}
+
+/**
+* Get un billet
+*/
+function responseGetUnBillet(response){
+	if (response.status == 200){
+		$("#errMsgSpan").hide();
+		window.location.hash ='#billet';
+	}else if (response.status == 401){
+		location.reload();
+		$('#errMsgSpan').text("Veuillez vous authentifier");
+    	$("#errMsgSpan").show();
+	}else if (response.status == 403){
+		$('#errMsgSpan').text("Vous n'êtes pas membre du groupe");
+    	$("#errMsgSpan").show();
+	} else if (response.status == 404){
+		$('#errMsgSpan').text("Billet non trouvé");
     	$("#errMsgSpan").show();
 	} else if (response.status == 406){
 		$('#errMsgSpan').text("Format de réponse demandé incorrect ou indisponible");
