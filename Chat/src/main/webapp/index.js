@@ -279,7 +279,6 @@ function submitFetch(jsonToSend, URL, methodToUse, responseToUse,idObjet,idGrp){
 
     fetch(URL,options)
     .then(function (response){
-    		//console.log(response);
     		if (responseToUse=='connexion'){
     			responsePostLogin(response);
     		} else if(responseToUse=='deconnexion'){
@@ -301,7 +300,6 @@ function submitFetch(jsonToSend, URL, methodToUse, responseToUse,idObjet,idGrp){
     		}
     	})
 	.catch(function(error){
-			//console.log(error);
 			if (responseToUse=='connexion'){
     			responsePostLogin(error);
     		} else if(responseToUse=='deconnexion'){
@@ -348,7 +346,7 @@ function getDatas(URL, methodToUse, responseToUse,hash,idObjet){
 		}
 	  	return response.json();
 	}).then(function(parsedJson) {
-		console.log(parsedJson);
+		//console.log(parsedJson);
 	  	gerer(hash,parsedJson,idObjet);
 	})
 	.catch(function(error){

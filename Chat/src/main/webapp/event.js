@@ -98,7 +98,6 @@ function setEventListeGroupes(){
 *   Déinstanciation des events de la liste des groupes
 */
 function deleteEventListeGroupes(){
-    console.log("Event groupes DELETE");
     $(function () {
         /**
          * Gérer le submit du formulaire de création de groupe
@@ -266,7 +265,6 @@ function setEventBillet(){
          */
         $("#suppressionBlt").on("click",function(event) {
             event.preventDefault();
-            console.log("clic suppression actif");
             var jsonToSend = {};
             var nomBlt = $('#IDBillet').attr('name');
             var nomGrp = $("#nomGroupeID").html();
