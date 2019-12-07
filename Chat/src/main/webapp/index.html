@@ -7,6 +7,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <script src="index.js"></script>
+        <script src="event.js"></script>
         <link rel="stylesheet" href="index.css">
     </head>
     <body>
@@ -14,8 +15,6 @@
             <ul class="navbar navbar-dark bg-primary">
                 <li><a href='#index'>Accueil</a></li>
                 <li><a href='#groupes'>Groupes</a></li>
-                <li><a href='#groupe'>Groupe</a></li>
-                <li><a href='#billet'>Billet</a></li>
                 <li><a href='#users'>Utilisateurs</a></li>
                 <li><a href='#deco'>Déconnexion</a></li>
             </ul>
@@ -167,8 +166,8 @@
                         <h3>Option de billet :</h3>
                         <div class="form-row justify-content-center">
                             <div class="form-group col-md-4">
-                                <input type="button" class="btn btn-warning" value="Modifier">
-                                <input type="button" class="btn btn-danger" value="Supprimer">
+                                <input type="button" id="refModifierBlt" class="btn btn-warning" value="Modifier">
+                                <input type="button" id="suppressionBlt" class="refSuppressionBlt btn btn-danger" value="Supprimer">
                             </div>
                         </div>
                     </div>
@@ -191,7 +190,7 @@
                 </script>
             </div>
             <div class="card">
-                <form method="post" action="Commentaires" class="container" id="formCommentaire">
+                <form method="post" action="" class="container" id="formCommentaire">
                     <h3>Ajouter un commentaire</h3>
                     <div class="form-row justify-content-center">
                         <div class="form-group col-md-4">
