@@ -2,13 +2,49 @@
 <html lang="fr">
     <head>
         <title>Mes Copains !</title>
+        <meta name="description" content="Application de chat"/>
+        <meta name="viewport" content="width=device-width, user-scalable=no">
         <meta charset="UTF-8">
-        <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <script src="index.js"></script>
         <script src="event.js"></script>
-        <link rel="stylesheet" href="index.css">
+        <style>
+            .active { 
+                display: block; 
+            }
+
+            .inactive { 
+                display: none; 
+            }
+
+            .btn{
+                margin: 5px;
+            }
+
+            .navbar li a{
+                color: #fff;
+            }
+
+            .navbar, ul{
+                list-style: none;
+            }
+            .btn-primary, .btn-primary:hover,.navbar{
+                background-color: #0053B3!important;
+                border-color: #0053B3!important;
+            }
+
+            h1,h2{
+                text-align: center;
+            }
+
+            .card{
+                width:40%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        </style>
     </head>
     <body>
         <aside>
@@ -84,7 +120,7 @@
             </div>
             <div id="divBltOption">
                 <div class="card">
-                    <div class="card-body" id="bltContenu">
+                    <div class="card-body">
                         <h2>Options groupe</h2>
                         <form method='post' action='' class="form container">
                             <div class="form-row justify-content-center">
@@ -162,7 +198,7 @@
             </div>
             <div id="optionBillet">
                 <div class="card">
-                    <div class="card-body" id="bltContenu">
+                    <div class="card-body">
                         <h3>Option de billet :</h3>
                         <div class="form-row justify-content-center">
                             <div class="form-group col-md-4">
@@ -176,7 +212,7 @@
              <div id="billetSuite">
                 <script id="commentID"  type="x-tmpl-mustache">
                     <div class="card">
-                        <div class="card-body" id="bltContenu">
+                        <div class="card-body">
                             <h2>Commentaires</h2>
                             <!-- Pour chaque élément de la liste, l'interface doit proposer à l'utilisateur de :
                                 - modifier le commentaire
